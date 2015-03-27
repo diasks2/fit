@@ -37,5 +37,9 @@ module Fit
       all_records.map { |r| DateTime.strptime((r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION).to_s, '%s').to_s if r[:raw_timestamp] }.compact
     end
 
+    def activity_total_time
+      (all_records[-1][:raw_timestamp].to_i + TIMESTAMP_CONVERSION) - (all_records[0][:raw_timestamp].to_i + TIMESTAMP_CONVERSION)
+    end
+
   end
 end
