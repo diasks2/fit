@@ -17,17 +17,15 @@ fit_file = Fit.load_file(ARGV[0])
 # Array of hashes with each element representing one data point from your workout ordered from start to finish.
 fit_file.all_records
 
-# Total time of your workout, including resting time
+# Total time of your workout, including resting time.
 # String in the format of "%H:%M:%S"
 fit_file.activity_total_time
 # => "1:01:58"
 
-
-# Total active time of your workout
+# Total active time of your workout.
 # String in the format of "%H:%M:%S"
 fit_file.activity_total_active_time
 # => "00:58:34"
-
 ```
 
 ## Supported files
