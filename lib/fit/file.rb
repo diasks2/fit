@@ -33,7 +33,7 @@ module Fit
       records.select{ |r| r.content.record_type != :definition }.map{ |r| r.content }
     end
 
-    def record_timestamps
+    def activity_timestamps
       all_records.map { |r| DateTime.strptime((r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION).to_s, '%s').to_s if r[:raw_timestamp] }.compact
     end
 
@@ -45,6 +45,29 @@ module Fit
         end_time = r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION if r[:raw_timestamp]
       end
       Time.at(end_time - start_time).utc.strftime("%H:%M:%S")
+    end
+
+    def activity_total_active_time
+      start_time = nil
+      end_time = nil
+      times = []
+      all_records.each do |r|
+        puts r[:raw_timestamp]
+        if r[:raw_timestamp].nil?
+          if start_time && end_time
+            times << end_time - start_time
+            start_time = nil
+            end_time = nil
+          else
+            start_time = nil
+            end_time = nil
+          end
+        else
+          start_time = r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION if start_time.nil?
+          end_time = r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION
+        end
+      end
+      Time.at(times.inject { |sum, t| sum + t }).utc.strftime("%H:%M:%S")
     end
 
   end
