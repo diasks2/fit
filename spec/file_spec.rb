@@ -41,7 +41,7 @@ describe Fit::File do
 
     context '#activity_total_time' do
       it 'should report the total time of the activity' do
-        expect(file.activity_total_time).to eq('')
+        expect(file.activity_total_time).to eq('01:01:03')
       end
     end
   end

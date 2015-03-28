@@ -38,7 +38,13 @@ module Fit
     end
 
     def activity_total_time
-      (all_records[-1][:raw_timestamp].to_i + TIMESTAMP_CONVERSION) - (all_records[0][:raw_timestamp].to_i + TIMESTAMP_CONVERSION)
+      start_time = nil
+      end_time = nil
+      all_records.each do |r|
+        start_time = r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION if r[:raw_timestamp] && start_time.nil?
+        end_time = r[:raw_timestamp].to_i + TIMESTAMP_CONVERSION if r[:raw_timestamp]
+      end
+      Time.at(end_time - start_time).utc.strftime("%H:%M:%S")
     end
 
   end
